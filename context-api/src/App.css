@@ -1,0 +1,23 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.btn {
+  height: 30px;
+  width: 60px;
+}
+
+label {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
