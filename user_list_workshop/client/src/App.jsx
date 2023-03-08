@@ -33,8 +33,6 @@ function App() {
 
     // save new user to state
     setUsers((prevUsers) => [...prevUsers, createdUser]);
-
-    // close the window
   };
 
   const onUserDelete = async (userId) => {
@@ -43,6 +41,19 @@ function App() {
 
     // remove user from stat
     setUsers((state) => state.filter((user) => user._id !== userId));
+  };
+
+  const onUserUpdateSubmit = async (e, userId) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+
+    const updatedUser = await userService.update(userId, data);
+
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => (userId === user._id ? updatedUser : user))
+    );
   };
 
   return (
@@ -54,7 +65,9 @@ function App() {
           <UserList
             users={users}
             onUserCreateSubmit={onUserCreateSubmit}
+            onUserUpdateSubmit={onUserUpdateSubmit}
             onUserDelete={onUserDelete}
+            on
           />
         </section>
       </main>

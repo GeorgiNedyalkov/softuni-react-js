@@ -5,10 +5,16 @@ import { UserCreate } from "./UserCreate";
 import * as userService from "../services/UserService";
 import { UserDelete } from "./UserDelete";
 
-export const UserList = ({ users, onUserCreateSubmit, onUserDelete }) => {
+export const UserList = ({
+  users,
+  onUserCreateSubmit,
+  onUserDelete,
+  onUserUpdateSubmit,
+}) => {
   const [showAddUser, setShowAddUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [showEditUser, setShowEditUser] = useState(null);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState(null);
 
   const onInfoClick = async (userId) => {
     const user = await userService.getOne(userId);
@@ -16,8 +22,9 @@ export const UserList = ({ users, onUserCreateSubmit, onUserDelete }) => {
   };
 
   const onClose = () => {
-    setSelectedUser(null);
     setShowAddUser(false);
+    setSelectedUser(null);
+    setShowEditUser(null);
     setShowDeleteUserModal(null);
   };
 
@@ -39,6 +46,17 @@ export const UserList = ({ users, onUserCreateSubmit, onUserDelete }) => {
     onClose();
   };
 
+  const onUserUpdateSubmitHandler = (e, userId) => {
+    onUserUpdateSubmit(e, userId);
+    onClose();
+  };
+
+  const onEditClick = async (userId) => {
+    const user = await userService.getOne(userId);
+
+    setShowEditUser(user);
+  };
+
   return (
     <>
       <div className="table-wrapper">
@@ -47,6 +65,14 @@ export const UserList = ({ users, onUserCreateSubmit, onUserDelete }) => {
           <UserCreate
             onClose={onClose}
             onUserCreateSubmit={onUserCreateSubmitHandler}
+          />
+        )}
+
+        {showEditUser && (
+          <UserCreate
+            user={showEditUser}
+            onClose={onClose}
+            onUserCreateSubmit={onUserUpdateSubmitHandler}
           />
         )}
         {showDeleteUserModal && (
@@ -227,6 +253,7 @@ export const UserList = ({ users, onUserCreateSubmit, onUserDelete }) => {
                 {...user}
                 onInfoClick={onInfoClick}
                 onDeleteClick={onDeleteClick}
+                onEditClick={onEditClick}
               />
             ))}
           </tbody>

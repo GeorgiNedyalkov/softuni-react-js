@@ -10,6 +10,7 @@ export const User = ({
   imageUrl,
   onInfoClick,
   onDeleteClick,
+  onEditClick,
 }) => {
   return (
     <tr>
@@ -27,7 +28,11 @@ export const User = ({
       <td>{formatDate(createdAt)}</td>
 
       <td className="actions">
-        <button className="btn edit-btn" title="Edit">
+        <button
+          onClick={() => onEditClick(_id)}
+          className="btn edit-btn"
+          title="Edit"
+        >
           <svg
             aria-hidden="true"
             focusable="false"
