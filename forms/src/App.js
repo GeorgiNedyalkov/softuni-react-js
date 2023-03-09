@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [username, setUsername] = useState("Pesho");
+  const [age, setAge] = useState(0);
 
   useEffect(() => {
     setTimeout(() => {
@@ -11,14 +12,11 @@ function App() {
   }, []);
 
   const onUsernameChange = (e) => {
-    console.log(e.target.value);
+    setUsername(e.target.value);
   };
 
-  const onSubmitClick = (e) => {
-    e.preventDefault();
-    console.log(
-      e.target.parentNode.parentNode.getElementById("username").value
-    );
+  const onAgeChange = (e) => {
+    setAge(e.target.value);
   };
 
   return (
@@ -31,14 +29,25 @@ function App() {
               type="text"
               name="username"
               id="username"
-              defaultValue={username}
+              value={username}
               onChange={onUsernameChange}
             />
           </div>
           <div>
-            <input type="submit" value="Log in" onClick={onSubmitClick} />
+            <label htmlFor="username">Age</label>
+            <input
+              type="number"
+              name="age"
+              id="age"
+              value={age}
+              onChange={onAgeChange}
+            />
+          </div>
+          <div>
+            <input type="submit" value="Log in" />
           </div>
         </form>
+        {username}
       </header>
     </div>
   );
