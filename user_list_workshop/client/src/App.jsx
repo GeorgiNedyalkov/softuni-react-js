@@ -8,6 +8,14 @@ import "./App.css";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    firstName: "",
+    lastName: "",
+  });
 
   useEffect(() => {
     userService
@@ -56,21 +64,45 @@ function App() {
     );
   };
 
+  const formChangeHandler = (e) => {
+    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  };
+
+  const validateForm = (e) => {
+    const value = e.target.value;
+    const errors = {};
+
+    if (value === "firstName" && (value.length < 3 || value.length > 20)) {
+      errors.firstName = "First name should be between 3 and 20 characters";
+    }
+
+    if (value === "lastName" && (value.length < 3 || value.length > 20)) {
+      errors.lastName = "Last name should be between 3 and 20 characters";
+    }
+
+    setFormErrors(errors);
+  };
+
   return (
     <>
       <Header />
+
       <main className="main">
         <section className="card users-container">
           <Search />
           <UserList
             users={users}
+            onUserDelete={onUserDelete}
             onUserCreateSubmit={onUserCreateSubmit}
             onUserUpdateSubmit={onUserUpdateSubmit}
-            onUserDelete={onUserDelete}
-            on
+            formValues={formValues}
+            formChangeHandler={formChangeHandler}
+            formErrors={formErrors}
+            validateForm={validateForm}
           />
         </section>
       </main>
+
       <Footer />
     </>
   );

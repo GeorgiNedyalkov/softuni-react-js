@@ -1,15 +1,19 @@
 import { User } from "./User";
 import { useState } from "react";
-import { UserDetails } from "./UserDetails";
 import { UserCreate } from "./UserCreate";
-import * as userService from "../services/UserService";
 import { UserDelete } from "./UserDelete";
+import { UserDetails } from "./UserDetails";
+import * as userService from "../services/UserService";
 
 export const UserList = ({
   users,
   onUserCreateSubmit,
   onUserDelete,
   onUserUpdateSubmit,
+  formValues,
+  formChangeHandler,
+  formErrors,
+  validateForm,
 }) => {
   const [showAddUser, setShowAddUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -65,6 +69,10 @@ export const UserList = ({
           <UserCreate
             onClose={onClose}
             onUserCreateSubmit={onUserCreateSubmitHandler}
+            formValues={formValues}
+            formChangeHandler={formChangeHandler}
+            formErrors={formErrors}
+            validateForm={validateForm}
           />
         )}
 
@@ -73,6 +81,10 @@ export const UserList = ({
             user={showEditUser}
             onClose={onClose}
             onUserCreateSubmit={onUserUpdateSubmitHandler}
+            formValues={formValues}
+            formChangeHandler={formChangeHandler}
+            formErrors={formErrors}
+            validateForm={validateForm}
           />
         )}
         {showDeleteUserModal && (
