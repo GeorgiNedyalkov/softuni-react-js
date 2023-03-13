@@ -1,23 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [hobbies, setHobbies] = useState({});
-
-  const [values, setValues] = useState({
-    username: "Gosho",
-    age: "",
-    creditCard: "",
-    occupation: "engineering",
-    gender: "male",
-    bio: "",
+  const [username, setUsername] = useState("Pesho");
+  const [age, setAge] = useState(0);
+  const [creditCard, setCreditCard] = useState("");
+  const [occupation, setOccupation] = useState("engineering");
+  const [gender, setGender] = useState("male");
+  const [bio, setBio] = useState("");
+  const [hobbies, setHobbies] = useState({
+    hiking: false,
+    reading: false,
+    sports: false,
+    coding: false,
   });
 
-  const onChangeHandler = (e) => {
-    setValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+  useEffect(() => {
+    setTimeout(() => {
+      setUsername("Gosho");
+    }, 3000);
+  }, []);
+
+  const onUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const onAgeChange = (e) => {
+    setAge(Number(e.target.value));
+  };
+
+  const onCreditCardChange = (e) => {
+    setCreditCard(e.target.value);
+  };
+
+  const onBioChange = (e) => {
+    setBio(e.target.value);
+  };
+
+  const onOccupationSelect = (e) => {
+    setOccupation(e.target.value);
+  };
+
+  const onGenderChange = (e) => {
+    setGender(e.target.value);
   };
 
   const onHobbiesChange = (e) => {
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
     setHobbies((prevHobbies) => ({
       ...prevHobbies,
       [e.target.value]: e.target.checked,
@@ -38,8 +69,8 @@ function App() {
               type="text"
               name="username"
               id="username"
-              value={values.username}
-              onChange={onChangeHandler}
+              value={username}
+              onChange={onUsernameChange}
             />
           </div>
           <div>
@@ -48,20 +79,20 @@ function App() {
               type="number"
               name="age"
               id="age"
-              value={values.age}
-              onChange={onChangeHandler}
+              value={age ?? ""}
+              onChange={onAgeChange}
             />
           </div>
 
-          {Number(values.age) >= 18 && (
+          {age > 18 && (
             <div>
               <label htmlFor="credit-card">Credit Card</label>
               <input
                 type="text"
                 name="credit-card"
                 id="credit-card"
-                value={values.creditCard ?? ""}
-                onChange={onChangeHandler}
+                value={creditCard ?? ""}
+                onChange={onCreditCardChange}
               />
             </div>
           )}
@@ -71,8 +102,8 @@ function App() {
             <select
               name="occupation"
               id="occupation"
-              value={values.occupation}
-              onChange={onChangeHandler}
+              value={occupation}
+              onChange={onOccupationSelect}
             >
               <option value="it">IT</option>
               <option value="engineering">Engineering</option>
@@ -88,8 +119,8 @@ function App() {
               name="gender"
               id="male"
               value="male"
-              onChange={onChangeHandler}
-              checked={values.gender === "male"}
+              onChange={onGenderChange}
+              checked={gender === "male"}
             />
             <label htmlFor="female">Female</label>
             <input
@@ -97,8 +128,8 @@ function App() {
               name="gender"
               id="female"
               value="female"
-              onChange={onChangeHandler}
-              checked={values.gender === "female"}
+              onChange={onGenderChange}
+              checked={gender === "female"}
             />
           </div>
 
@@ -109,8 +140,8 @@ function App() {
               id="bio"
               cols="30"
               rows="10"
-              value={values.bio}
-              onChange={onChangeHandler}
+              value={bio}
+              onChange={onBioChange}
             ></textarea>
           </div>
 
