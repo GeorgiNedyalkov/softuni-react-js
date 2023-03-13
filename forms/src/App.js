@@ -6,6 +6,14 @@ function App() {
   const [age, setAge] = useState(0);
   const [creditCard, setCreditCard] = useState("");
   const [occupation, setOccupation] = useState("engineering");
+  const [gender, setGender] = useState("male");
+  const [bio, setBio] = useState("");
+  const [hobbies, setHobbies] = useState({
+    hiking: false,
+    reading: false,
+    sports: false,
+    coding: false,
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,15 +33,30 @@ function App() {
     setCreditCard(e.target.value);
   };
 
+  const onBioChange = (e) => {
+    setBio(e.target.value);
+  };
+
   const onOccupationSelect = (e) => {
     setOccupation(e.target.value);
   };
 
+  const onGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+
+  const onHobbiesChange = (e) => {
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
+    setHobbies((prevHobbies) => ({
+      ...prevHobbies,
+      [e.target.value]: e.target.checked,
+    }));
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(username);
-    console.log(age);
-    console.log(creditCard);
   };
 
   return (
@@ -79,15 +102,86 @@ function App() {
             <select
               name="occupation"
               id="occupation"
-              onSelect={onOccupationSelect}
+              value={occupation}
+              onChange={onOccupationSelect}
             >
               <option value="it">IT</option>
-              <option value="engineering" selected>
-                Engineering
-              </option>
+              <option value="engineering">Engineering</option>
               <option value="professor">Professor</option>
               <option value="programmer">Programmer</option>
             </select>
+          </div>
+
+          <div>
+            <label htmlFor="male">Male</label>
+            <input
+              type="radio"
+              name="gender"
+              id="male"
+              value="male"
+              onChange={onGenderChange}
+              checked={gender === "male"}
+            />
+            <label htmlFor="female">Female</label>
+            <input
+              type="radio"
+              name="gender"
+              id="female"
+              value="female"
+              onChange={onGenderChange}
+              checked={gender === "female"}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="bio">Bio</label>
+            <textarea
+              name="bio"
+              id="bio"
+              cols="30"
+              rows="10"
+              value={bio}
+              onChange={onBioChange}
+            ></textarea>
+          </div>
+
+          <div>
+            <label htmlFor="hiking">Hiking</label>
+            <input
+              type="checkbox"
+              name="hobbies"
+              id="hiking"
+              value="hiking"
+              checked={hobbies["hiking"]}
+              onChange={onHobbiesChange}
+            />
+            <label htmlFor="reading">Reading</label>
+            <input
+              type="checkbox"
+              name="hobbies"
+              id="reading"
+              value="reading"
+              checked={hobbies["reading"]}
+              onChange={onHobbiesChange}
+            />
+            <label htmlFor="sports">Sports</label>
+            <input
+              type="checkbox"
+              name="hobbies"
+              id="sports"
+              value="sports"
+              checked={hobbies["sports"]}
+              onChange={onHobbiesChange}
+            />
+            <label htmlFor="coding">Coding</label>
+            <input
+              type="checkbox"
+              name="hobbies"
+              id="coding"
+              value="coding"
+              checked={hobbies["coding"]}
+              onChange={onHobbiesChange}
+            />
           </div>
 
           <div>
