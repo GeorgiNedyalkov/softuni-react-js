@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 function App() {
+  const ref = useRef();
   const [hobbies, setHobbies] = useState({});
-
   const [values, setValues] = useState({
     username: "Gosho",
     age: "",
@@ -12,6 +12,10 @@ function App() {
     gender: "male",
     bio: "",
   });
+
+  useEffect(() => {
+    ref.current.value = values.username;
+  }, [values.username]);
 
   const onChangeHandler = (e) => {
     setValues((state) => ({ ...state, [e.target.name]: e.target.value }));
@@ -154,7 +158,17 @@ function App() {
           </div>
 
           <div>
-            <input type="submit" value="Log in" />
+            <label htmlFor="uncontrolled">Uncontrolled</label>
+            <input
+              type="text"
+              name="uncontrolled"
+              id="uncontrolled"
+              ref={ref}
+            />
+          </div>
+
+          <div>
+            <input type="submit" value="Send" />
           </div>
         </form>
       </header>
