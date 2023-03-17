@@ -8,3 +8,17 @@ export const getAll = async () => {
 
   return games;
 };
+
+export const create = async (gameData) => {
+  const result = await request.post(baseUrl, gameData);
+
+  return result;
+};
+
+export const getOne = async (gameId) => {
+  const result = await request.get(`${baseUrl}/${gameId}`);
+
+  console.log(result);
+
+  return result;
+};
