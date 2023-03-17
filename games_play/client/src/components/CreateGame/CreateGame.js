@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const CreateGame = () => {
   return (
     <section id="create-page" className="auth">
