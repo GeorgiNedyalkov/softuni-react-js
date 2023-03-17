@@ -1,13 +1,36 @@
 import { useState } from "react";
 
-export const CreateGame = () => {
+export const CreateGame = ({ onCreateGameSubmit }) => {
+  const [values, setValues] = useState({
+    title: "",
+    category: "",
+    maxLevel: "",
+    imageUrl: "",
+    summary: "",
+  });
+
+  const onChangeHandler = (e) => {
+    setValues((state) => ({
+      ...state,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    onCreateGameSubmit(values);
+  };
+
   return (
     <section id="create-page" className="auth">
-      <form id="create">
+      <form id="create" onSubmit={onSubmit}>
         <div className="container">
           <h1>Create Game</h1>
           <label htmlFor="leg-title">Legendary title:</label>
           <input
+            value={values.title}
+            onChange={onChangeHandler}
             type="text"
             id="title"
             name="title"
@@ -16,6 +39,8 @@ export const CreateGame = () => {
 
           <label htmlFor="category">Category:</label>
           <input
+            value={values.category}
+            onChange={onChangeHandler}
             type="text"
             id="category"
             name="category"
@@ -24,6 +49,8 @@ export const CreateGame = () => {
 
           <label htmlFor="levels">MaxLevel:</label>
           <input
+            value={values.maxLevel}
+            onChange={onChangeHandler}
             type="number"
             id="maxLevel"
             name="maxLevel"
@@ -33,6 +60,8 @@ export const CreateGame = () => {
 
           <label htmlFor="game-img">Image:</label>
           <input
+            value={values.imageUrl}
+            onChange={onChangeHandler}
             type="text"
             id="imageUrl"
             name="imageUrl"
@@ -40,7 +69,12 @@ export const CreateGame = () => {
           />
 
           <label htmlFor="summary">Summary:</label>
-          <textarea name="summary" id="summary"></textarea>
+          <textarea
+            value={values.summary}
+            onChange={onChangeHandler}
+            name="summary"
+            id="summary"
+          ></textarea>
           <input className="btn submit" type="submit" value="Create Game" />
         </div>
       </form>
