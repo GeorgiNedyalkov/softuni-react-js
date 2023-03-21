@@ -1,0 +1,14 @@
+.navigation li {
+    list-style: none;
+    display: inline;
+    margin-left: 10px;
+}
+
+.navigation a {
+    color: rgb(50, 50, 135);
+    text-decoration: none;
+}
+
+.navigation a:hover {
+    color: brown;
+}

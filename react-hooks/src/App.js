@@ -1,6 +1,8 @@
-import { AddTodoModal } from "./components/AddTodoModal";
-import { TodoList } from "./components/TodoList";
 import { useState, useEffect } from "react";
+import { Header } from "./components/Header";
+import { TodoList } from "./components/TodoList";
+import { AddTodoModal } from "./components/AddTodoModal";
+import { TodoContext } from "./contexts/TodoContext";
 
 const baseUrl = "http://localhost:3030/jsonstore/todos";
 
@@ -32,14 +34,6 @@ function App() {
     return result;
   };
 
-  const onTodoAddClick = () => {
-    setShowAddTodo(true);
-  };
-
-  const onTodoAddClose = () => {
-    setShowAddTodo(false);
-  };
-
   const onTodoDeleteClick = async (todoId) => {
     await fetch(`${baseUrl}/${todoId}`, {
       method: "DELETE",
@@ -48,22 +42,32 @@ function App() {
     setTodos((state) => state.filter((x) => x._id !== todoId));
   };
 
+  const onTodoAddClick = () => {
+    setShowAddTodo(true);
+  };
+
+  const onTodoAddClose = () => {
+    setShowAddTodo(false);
+  };
+
+  const contextValue = {
+    onTodoDeleteClick,
+  };
+
   return (
-    <div className="App">
-      <h1>React Hooks</h1>
+    <TodoContext.Provider value={contextValue}>
+      <div className="App">
+        <Header />
 
-      <TodoList
-        todos={todos}
-        onTodoAddClick={onTodoAddClick}
-        onTodoDeleteClick={onTodoDeleteClick}
-      />
+        <TodoList todos={todos} onTodoAddClick={onTodoAddClick} />
 
-      <AddTodoModal
-        show={showAddTodo}
-        close={onTodoAddClose}
-        onTodoAddSubmit={onTodoAddSubmit}
-      />
-    </div>
+        <AddTodoModal
+          show={showAddTodo}
+          close={onTodoAddClose}
+          onTodoAddSubmit={onTodoAddSubmit}
+        />
+      </div>
+    </TodoContext.Provider>
   );
 }
 
