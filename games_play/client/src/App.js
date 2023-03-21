@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import * as gameService from "./services/gameService";
+import { AuthContext } from "./AuthContext";
 
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
@@ -14,6 +15,7 @@ import { GameDetails } from "./components/GameDetails/GameDetails";
 
 function App() {
   const [games, setGames] = useState([]);
+  const [auth, setAuth] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,26 +32,32 @@ function App() {
     navigate("/catalogue");
   };
 
+  const onLoginSubmit = async (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div id="box">
-      <Header />
+    <AuthContext.Provider value={{ onLoginSubmit }}>
+      <div id="box">
+        <Header />
 
-      <main id="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/create-game"
-            element={<CreateGame onCreateGameSubmit={onCreateGameSubmit} />}
-          />
-          <Route path="/catalogue" element={<Catalogue games={games} />} />
-          <Route path="/catalogue/:gameId" element={<GameDetails />} />
-        </Routes>
-      </main>
+        <main id="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/create-game"
+              element={<CreateGame onCreateGameSubmit={onCreateGameSubmit} />}
+            />
+            <Route path="/catalogue" element={<Catalogue games={games} />} />
+            <Route path="/catalogue/:gameId" element={<GameDetails />} />
+          </Routes>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </AuthContext.Provider>
   );
 }
 
