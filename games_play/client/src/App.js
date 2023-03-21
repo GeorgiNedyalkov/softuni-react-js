@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import * as gameService from "./services/gameService";
+import * as authService from "./services/authService";
 import { AuthContext } from "./AuthContext";
 
 import { Header } from "./components/Header/Header";
@@ -33,7 +34,9 @@ function App() {
   };
 
   const onLoginSubmit = async (data) => {
-    console.log(data);
+    const result = await authService.login(data);
+    console.log(result);
+    setAuth(result);
   };
 
   return (

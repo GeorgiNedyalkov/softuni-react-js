@@ -9,7 +9,7 @@ const LoginFormKeys = {
 
 export const Login = () => {
   const { onLoginSubmit } = useContext(AuthContext);
-  const { formValues, changeHandler } = useForm(
+  const { values, changeHandler, onSubmit } = useForm(
     {
       [LoginFormKeys.Email]: "",
       [LoginFormKeys.Password]: "",
@@ -19,7 +19,7 @@ export const Login = () => {
 
   return (
     <section id="login-page" className="auth">
-      <form id="login" onSubmit={onLoginSubmit}>
+      <form id="login" method="POST" onSubmit={onSubmit}>
         <div className="container">
           <div className="brand-logo"></div>
           <h1>Login</h1>
@@ -29,7 +29,7 @@ export const Login = () => {
             id="email"
             placeholder="Sokka@gmail.com"
             name={LoginFormKeys.Email}
-            value={formValues[LoginFormKeys.Email]}
+            value={values[LoginFormKeys.Email]}
             onChange={changeHandler}
           />
 
@@ -38,7 +38,7 @@ export const Login = () => {
             type="password"
             id="login-password"
             name={LoginFormKeys.Password}
-            value={formValues[LoginFormKeys.Password]}
+            value={values[LoginFormKeys.Password]}
             onChange={changeHandler}
           />
           <input type="submit" className="btn submit" value="Login" />
