@@ -34,17 +34,26 @@ function App() {
   };
 
   const onLoginSubmit = async (data) => {
-    console.log("clicked");
     try {
       const result = await authService.login(data);
       setAuth(result);
     } catch (error) {
       console.log(`There has been a problem here is the error: ${error}`);
     }
+
+    navigate("/catalog");
+  };
+
+  const context = {
+    onLoginSubmit,
+    userId: auth._id,
+    token: auth.accessToken,
+    userEmail: auth.email,
+    isAuthenticated: !!auth.accessToken,
   };
 
   return (
-    <AuthContext.Provider value={{ onLoginSubmit }}>
+    <AuthContext.Provider value={context}>
       <div id="box">
         <Header />
 
