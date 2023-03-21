@@ -34,9 +34,13 @@ function App() {
   };
 
   const onLoginSubmit = async (data) => {
-    const result = await authService.login(data);
-    console.log(result);
-    setAuth(result);
+    console.log("clicked");
+    try {
+      const result = await authService.login(data);
+      setAuth(result);
+    } catch (error) {
+      console.log(`There has been a problem here is the error: ${error}`);
+    }
   };
 
   return (
