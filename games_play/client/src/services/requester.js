@@ -1,4 +1,4 @@
-const request = async (method, url, data) => {
+const request = async (method, token, url, data) => {
   const options = {};
 
   if (method !== "GET") {
@@ -11,6 +11,13 @@ const request = async (method, url, data) => {
 
       options.body = JSON.stringify(data);
     }
+  }
+
+  if (token) {
+    options.headers = {
+      ...options.headers,
+      "X-Authorization": token,
+    };
   }
 
   const response = await fetch(url, options);
@@ -28,8 +35,12 @@ const request = async (method, url, data) => {
   return result;
 };
 
-export const get = request.bind(null, "GET");
-export const post = request.bind(null, "POST");
-export const put = request.bind(null, "PUT");
-export const patch = request.bind(null, "PATH");
-export const del = request.bind(null, "DELETE");
+export const requestFactory = (token) => {
+  return {
+    get: request.bind(null, "GET", token),
+    put: request.bind(null, "PUT", token),
+    post: request.bind(null, "POST", token),
+    patch: request.bind(null, "PATH", token),
+    delete: request.bind(null, "DELETE", token),
+  };
+};

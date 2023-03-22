@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-import * as gameService from "./services/gameService";
-import * as authService from "./services/authService";
+import { gameServiceFactory } from "./services/gameService";
+import { authServiceFactory } from "./services/authService";
 import { AuthContext } from "./AuthContext";
 
 import { Home } from "./components/Home/Home";
@@ -16,9 +16,11 @@ import { CreateGame } from "./components/CreateGame/CreateGame";
 import { GameDetails } from "./components/GameDetails/GameDetails";
 
 function App() {
+  const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [auth, setAuth] = useState({});
-  const navigate = useNavigate();
+  const gameService = gameServiceFactory(auth.accessToken);
+  const authService = authServiceFactory(auth.accessToken);
 
   useEffect(() => {
     gameService.getAll().then((result) => {
@@ -63,8 +65,9 @@ function App() {
     }
   };
 
-  const onLogout = () => {
-    // TODO: authorized request
+  const onLogout = async () => {
+    await authService.logout();
+
     setAuth({});
   };
 
