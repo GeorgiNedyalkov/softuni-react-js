@@ -5,10 +5,11 @@ import * as gameService from "./services/gameService";
 import * as authService from "./services/authService";
 import { AuthContext } from "./AuthContext";
 
-import { Header } from "./components/Header/Header";
-import { Footer } from "./components/Footer/Footer";
 import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
+import { Logout } from "./components/Logout/Logout";
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
 import { Register } from "./components/Register/Register";
 import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
@@ -41,7 +42,7 @@ function App() {
       console.log(`There has been a problem here is the error: ${error}`);
     }
 
-    navigate("/catalog");
+    navigate("/catalogue");
   };
 
   const onRegisterSubmit = async (values) => {
@@ -56,14 +57,20 @@ function App() {
 
       setAuth(result);
 
-      navigate("/catalog");
+      navigate("/catalogue");
     } catch (error) {
       console.log(`There has been a problem here is the error: ${error}`);
     }
   };
 
+  const onLogout = () => {
+    // TODO: authorized request
+    setAuth({});
+  };
+
   const context = {
     onLoginSubmit,
+    onLogout,
     onRegisterSubmit,
     userId: auth._id,
     token: auth.accessToken,
@@ -80,6 +87,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
             <Route
               path="/create-game"
