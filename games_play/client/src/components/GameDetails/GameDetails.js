@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
+import { AuthContext } from "../../AuthContext";
 
 export const GameDetails = () => {
+  const { userId } = useContext(AuthContext);
   const { gameId } = useParams();
   const [game, setGame] = useState({});
   const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
   const gameService = useService(gameServiceFactory);
+  const navigate = useNavigate();
 
   useEffect(() => {
     gameService.getOne(gameId).then((result) => {
@@ -31,6 +34,16 @@ export const GameDetails = () => {
     }));
     setUsername("");
     setComment("");
+  };
+
+  const isOwner = game._ownerId === userId;
+
+  const onDeleteClick = async (e) => {
+    await gameService.delete(game._id);
+
+    // TODO: delete from state
+
+    navigate("/catalogue");
   };
 
   return (
@@ -64,15 +77,16 @@ export const GameDetails = () => {
           )} */}
         </div>
 
-        {/* <!-- Edit/Delete buttons ( Only htmlFor creator of this game )  --> */}
-        <div className="buttons">
-          <a href="#" className="button">
-            Edit
-          </a>
-          <a href="#" className="button">
-            Delete
-          </a>
-        </div>
+        {isOwner && (
+          <div className="buttons">
+            <a href="#" className="button">
+              Edit
+            </a>
+            <button onClick={onDeleteClick} className="button">
+              Delete
+            </button>
+          </div>
+        )}
       </div>
 
       {/* <!-- Bonus --> */}
