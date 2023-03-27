@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
@@ -79,9 +79,9 @@ export const GameDetails = () => {
 
         {isOwner && (
           <div className="buttons">
-            <a href="#" className="button">
+            <Link to={`/catalogue/${game._id}/edit`} className="button">
               Edit
-            </a>
+            </Link>
             <button onClick={onDeleteClick} className="button">
               Delete
             </button>
