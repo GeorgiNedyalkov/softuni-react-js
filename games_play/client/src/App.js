@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { gameServiceFactory } from "./services/gameService";
 import { authServiceFactory } from "./services/authService";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 
 import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
@@ -11,10 +11,10 @@ import { Logout } from "./components/Logout/Logout";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { Register } from "./components/Register/Register";
+import { EditGame } from "./components/EditGame/EditGame";
 import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
 import { GameDetails } from "./components/GameDetails/GameDetails";
-import { EditGame } from "./components/EditGame/EditGame";
 
 function App() {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ function App() {
   const onCreateGameSubmit = async (data) => {
     const newGame = await gameService.create(data);
 
-    setGames((state) => [...state], newGame);
+    setGames((state) => [...state, newGame]);
 
     navigate("/catalogue");
   };
