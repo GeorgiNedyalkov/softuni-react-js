@@ -1,4 +1,4 @@
-const request = async (method, token, url, data) => {
+const requester = async (method, token, url, data) => {
   const options = {};
 
   if (method !== "GET") {
@@ -36,11 +36,22 @@ const request = async (method, token, url, data) => {
 };
 
 export const requestFactory = (token) => {
+  if (!token) {
+    const serializedAuth = localStorage.getItem("auth");
+
+    if (serializedAuth) {
+      const auth = JSON.stringify(serializedAuth);
+      token = auth.accessToken;
+    }
+  }
+
   return {
-    get: request.bind(null, "GET", token),
-    put: request.bind(null, "PUT", token),
-    post: request.bind(null, "POST", token),
-    patch: request.bind(null, "PATH", token),
-    delete: request.bind(null, "DELETE", token),
+    get: requester.bind(null, "GET", token),
+    put: requester.bind(null, "PUT", token),
+    post: requester.bind(null, "POST", token),
+    patch: requester.bind(null, "PATH", token),
+    delete: requester.bind(null, "DELETE", token),
   };
 };
+
+export const request = requestFactory(localStorage.getItem("auth"));

@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { gameServiceFactory } from "./services/gameService";
 import { AuthProvider } from "./contexts/AuthContext";
+import { withAuth } from "./hoc/withAuth";
 
 import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
@@ -42,6 +43,8 @@ function App() {
 
     navigate(`/catalogue/${values._id}`);
   };
+
+  // const EnhancedLogin = withAuth(Login);
 
   return (
     <AuthProvider>
