@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { gameServiceFactory } from "./services/gameService";
 import { AuthProvider } from "./contexts/AuthContext";
-import { withAuth } from "./hoc/withAuth";
 
 import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
@@ -38,7 +37,6 @@ function App() {
   const onGameEditSubmit = async (values) => {
     const result = await gameService.edit(values._id, values);
 
-    // TODO: change state
     setGames((state) => state.map((g) => (g._id === values._id ? result : g)));
 
     navigate(`/catalogue/${values._id}`);
