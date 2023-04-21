@@ -9,8 +9,16 @@ import { Register } from "./components/Register/Register";
 import { CreateGame } from "./components/CreateGame/CreateGame";
 import { Catalogue } from "./components/Catalogue/Catalogue";
 
+import * as gameService from "./services/gameService";
+
 function App() {
   const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    gameService.getAll().then((result) => {
+      setGames(result);
+    });
+  }, []);
 
   return (
     <div className="App">
