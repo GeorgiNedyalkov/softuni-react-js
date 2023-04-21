@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import * as gameService from "../../services/gameService";
 
@@ -18,7 +18,7 @@ export const GameDetails = () => {
       <h1>Game Details</h1>
       <div className="info-section">
         <div className="game-header">
-          <img className="game-img" src={game.imageUrl} />
+          <img className="game-img" src={game.imageUrl} alt={game.title} />
           <h1>{game.title}</h1>
           <span className="levels">{game.maxLevel}</span>
           <p className="type">{game.category}</p>
@@ -44,12 +44,13 @@ export const GameDetails = () => {
 
         {/* <!-- Edit/Delete buttons ( Only htmlFor creator of this game )  --> */}
         <div className="buttons">
-          <a href="#" className="button">
+          <Link to="/" className="button">
             Edit
-          </a>
-          <a href="#" className="button">
+          </Link>
+
+          <Link to="/" className="button">
             Delete
-          </a>
+          </Link>
         </div>
       </div>
 
