@@ -21,3 +21,9 @@ export const create = async (gameData) => {
 
   return result;
 };
+
+export const addComment = async (gameId, data) => {
+  const result = await request.post(`${baseUrl}/${gameId}/comments`, data);
+
+  return result;
+};
