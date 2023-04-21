@@ -16,6 +16,7 @@ function App() {
 
   useEffect(() => {
     gameService.getAll().then((result) => {
+      console.log(result);
       setGames(result);
     });
   }, []);
@@ -31,7 +32,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/create-game" element={<CreateGame />} />
-            <Route path="/catalogue" element={<Catalogue />} />
+            <Route path="/catalogue" element={<Catalogue games={games} />} />
           </Routes>
         </main>
       </div>
