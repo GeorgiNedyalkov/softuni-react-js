@@ -10,6 +10,7 @@ import { CreateGame } from "./components/CreateGame/CreateGame";
 import { Catalogue } from "./components/Catalogue/Catalogue";
 
 import * as gameService from "./services/gameService";
+import { GameDetails } from "./components/GameDetails/GameDetails";
 
 function App() {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ function App() {
 
   useEffect(() => {
     gameService.getAll().then((result) => {
-      console.log(result);
       setGames(result);
     });
   }, []);
@@ -45,6 +45,7 @@ function App() {
               element={<CreateGame onCreateGameSubmit={onCreateGameSubmit} />}
             />
             <Route path="/catalogue" element={<Catalogue games={games} />} />
+            <Route path="/catalogue/:gameId" element={<GameDetails />} />
           </Routes>
         </main>
       </div>
