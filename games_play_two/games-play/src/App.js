@@ -21,6 +21,10 @@ function App() {
     });
   }, []);
 
+  const onCreateGameSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="App">
       <Header />
@@ -31,7 +35,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/create-game" element={<CreateGame />} />
+            <Route
+              path="/create-game"
+              element={<CreateGame onCreateGameSubmit={onCreateGameSubmit} />}
+            />
             <Route path="/catalogue" element={<Catalogue games={games} />} />
           </Routes>
         </main>
