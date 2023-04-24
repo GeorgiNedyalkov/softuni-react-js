@@ -14,7 +14,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import * as gameService from "./services/gameService";
 import * as authService from "./services/authService";
 
-function App() {
+const App = () => {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [auth, setAuth] = useState({});
@@ -46,8 +46,12 @@ function App() {
   };
 
   const onRegisterSubmit = async (data) => {
+    const { confirmPassword, ...registerData } = data;
+
+    if (confirmPassword !== registerData.password) return;
+
     try {
-      const result = await authService.register(data);
+      const result = await authService.register(registerData);
 
       setAuth(result);
 
@@ -91,6 +95,6 @@ function App() {
       </div>
     </AuthContext.Provider>
   );
-}
+};
 
 export default App;
