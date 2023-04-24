@@ -10,9 +10,9 @@ import { Catalogue } from "./components/Catalogue/Catalogue";
 import { CreateGame } from "./components/CreateGame/CreateGame";
 import { GameDetails } from "./components/GameDetails/GameDetails";
 
+import { AuthContext } from "./contexts/AuthContext";
 import * as gameService from "./services/gameService";
 import * as authService from "./services/authService";
-import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
   const navigate = useNavigate();
@@ -45,8 +45,16 @@ function App() {
     }
   };
 
+  const context = {
+    onLoginSubmit,
+    userId: auth._id,
+    token: auth.accessToken,
+    userEmail: auth.email,
+    isAuthenticated: !!auth.accessToken,
+  };
+
   return (
-    <AuthContext.Provider value={{ onLoginSubmit }}>
+    <AuthContext.Provider value={context}>
       <div className="App">
         <Header />
 
