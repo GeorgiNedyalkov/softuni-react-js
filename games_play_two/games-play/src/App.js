@@ -32,8 +32,8 @@ function App() {
     navigate("/catalogue");
   };
 
-  const onLoginSubmit = async (e) => {
-    e.preventDefault();
+  const onLoginSubmit = async (values) => {
+    console.log(values);
   };
 
   return (
