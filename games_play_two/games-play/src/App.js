@@ -45,8 +45,21 @@ function App() {
     }
   };
 
+  const onRegisterSubmit = async (data) => {
+    try {
+      const result = await authService.register(data);
+
+      setAuth(result);
+
+      navigate("/catalogue");
+    } catch (error) {
+      console.log("There is a problem");
+    }
+  };
+
   const context = {
     onLoginSubmit,
+    onRegisterSubmit,
     userId: auth._id,
     token: auth.accessToken,
     userEmail: auth.email,
