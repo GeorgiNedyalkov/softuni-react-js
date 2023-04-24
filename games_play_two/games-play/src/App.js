@@ -11,6 +11,7 @@ import { CreateGame } from "./components/CreateGame/CreateGame";
 import { GameDetails } from "./components/GameDetails/GameDetails";
 
 import * as gameService from "./services/gameService";
+import * as authService from "./services/authService";
 import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
@@ -32,8 +33,10 @@ function App() {
     navigate("/catalogue");
   };
 
-  const onLoginSubmit = async (values) => {
-    console.log(values);
+  const onLoginSubmit = async (data) => {
+    const result = await authService.login(data);
+
+    console.log(result);
   };
 
   return (
