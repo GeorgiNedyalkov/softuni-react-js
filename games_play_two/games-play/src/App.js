@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
+import { Logout } from "./components/Logout/Logout";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { Register } from "./components/Register/Register";
@@ -61,6 +62,12 @@ const App = () => {
     }
   };
 
+  const onLogout = async () => {
+    await authService.logout();
+
+    setAuth({});
+  };
+
   const context = {
     onLoginSubmit,
     onRegisterSubmit,
@@ -80,6 +87,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout />} />
               <Route path="/register" element={<Register />} />
               <Route
                 path="/create-game"
