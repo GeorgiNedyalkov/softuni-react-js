@@ -15,6 +15,7 @@ import { AuthContext } from "./contexts/AuthContext";
 
 import { gameServiceFactory } from "./services/gameService";
 import { authServiceFactory } from "./services/authService";
+import { EditGame } from "./components/EditGame/EditGame";
 
 const App = () => {
   const navigate = useNavigate();
@@ -35,6 +36,16 @@ const App = () => {
     setGames((state) => [...state, newGame]);
 
     navigate("/catalogue");
+  };
+
+  const onGameEditSubmit = async (values) => {
+    const updatedGame = await gameService.edit(values._id, values);
+
+    setGames((state) =>
+      state.map((game) => (game._id === values._id ? updatedGame : game))
+    );
+
+    navigate(`/catalogue/${values._id}`);
   };
 
   const onLoginSubmit = async (data) => {
@@ -99,6 +110,10 @@ const App = () => {
               />
               <Route path="/catalogue" element={<Catalogue games={games} />} />
               <Route path="/catalogue/:gameId" element={<GameDetails />} />
+              <Route
+                path="/catalogue/:gameId/edit"
+                element={<EditGame onGameEditSubmit={onGameEditSubmit} />}
+              />
             </Routes>
           </main>
         </div>

@@ -80,7 +80,7 @@ export const GameDetails = () => {
 
         {isOwner && (
           <div className="buttons">
-            <Link to="/edit" className="button">
+            <Link to={`/catalogue/${gameId}/edit`} className="button">
               Edit
             </Link>
 
