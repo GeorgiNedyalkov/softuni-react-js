@@ -12,13 +12,16 @@ import { CreateGame } from "./components/CreateGame/CreateGame";
 import { GameDetails } from "./components/GameDetails/GameDetails";
 
 import { AuthContext } from "./contexts/AuthContext";
-import * as gameService from "./services/gameService";
-import * as authService from "./services/authService";
+
+import { gameServiceFactory } from "./services/gameService";
+import { authServiceFactory } from "./services/authService";
 
 const App = () => {
   const navigate = useNavigate();
   const [games, setGames] = useState([]);
   const [auth, setAuth] = useState({});
+  const gameService = gameServiceFactory(auth.accessToken);
+  const authService = authServiceFactory(auth.accessToken);
 
   useEffect(() => {
     gameService.getAll().then((result) => {
