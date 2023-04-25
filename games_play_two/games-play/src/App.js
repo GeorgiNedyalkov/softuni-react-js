@@ -63,12 +63,14 @@ const App = () => {
   };
 
   const onLogout = async () => {
-    await authService.logout();
+    // TODO: authorized request
+    // await authService.logout();
 
     setAuth({});
   };
 
   const context = {
+    onLogout,
     onLoginSubmit,
     onRegisterSubmit,
     userId: auth._id,
