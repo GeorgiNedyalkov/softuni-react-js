@@ -3,13 +3,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useContext } from "react";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 export const GameDetails = () => {
   const navigate = useNavigate();
   const { gameId } = useParams();
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuthContext();
   const [game, setGame] = useState({});
   const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
