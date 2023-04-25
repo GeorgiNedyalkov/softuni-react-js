@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
@@ -7,12 +7,13 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 
 export const GameDetails = () => {
+  const navigate = useNavigate();
+  const { gameId } = useParams();
+  const { userId } = useContext(AuthContext);
+  const [game, setGame] = useState({});
   const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
-  const { gameId } = useParams();
-  const [game, setGame] = useState({});
   const gameService = useService(gameServiceFactory);
-  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     gameService.getOne(gameId).then((result) => {
@@ -37,6 +38,14 @@ export const GameDetails = () => {
   };
 
   const isOwner = game._ownerId === userId;
+
+  const onDeleteClick = async () => {
+    await gameService.delete(game._id);
+
+    // TODO: delete from state
+
+    navigate("/catalogue");
+  };
 
   return (
     <section id="game-details">
@@ -71,13 +80,13 @@ export const GameDetails = () => {
 
         {isOwner && (
           <div className="buttons">
-            <Link to="/" className="button">
+            <Link to="/edit" className="button">
               Edit
             </Link>
 
-            <Link to="/" className="button">
+            <button onClick={onDeleteClick} className="button">
               Delete
-            </Link>
+            </button>
           </div>
         )}
       </div>

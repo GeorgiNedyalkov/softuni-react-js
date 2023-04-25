@@ -31,10 +31,13 @@ export const gameServiceFactory = (token) => {
     return result;
   };
 
+  const deleteGame = (gameId) => request.delete(`${baseUrl}/${gameId}`);
+
   return {
     getAll,
     getOne,
     create,
     addComment,
+    delete: deleteGame,
   };
 };
