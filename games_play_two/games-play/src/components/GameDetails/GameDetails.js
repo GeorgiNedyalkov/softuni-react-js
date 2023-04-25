@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
 export const GameDetails = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +12,7 @@ export const GameDetails = () => {
   const { gameId } = useParams();
   const [game, setGame] = useState({});
   const gameService = useService(gameServiceFactory);
+  const { userId } = useContext(AuthContext);
 
   useEffect(() => {
     gameService.getOne(gameId).then((result) => {
@@ -32,6 +35,8 @@ export const GameDetails = () => {
     setUsername("");
     setComment("");
   };
+
+  const isOwner = game._ownerId === userId;
 
   return (
     <section id="game-details">
@@ -64,19 +69,19 @@ export const GameDetails = () => {
           )} */}
         </div>
 
-        {/* <!-- Edit/Delete buttons ( Only htmlFor creator of this game )  --> */}
-        <div className="buttons">
-          <Link to="/" className="button">
-            Edit
-          </Link>
+        {isOwner && (
+          <div className="buttons">
+            <Link to="/" className="button">
+              Edit
+            </Link>
 
-          <Link to="/" className="button">
-            Delete
-          </Link>
-        </div>
+            <Link to="/" className="button">
+              Delete
+            </Link>
+          </div>
+        )}
       </div>
 
-      {/* <!-- Add Comment ( Only htmlFor logged-in users, which is not creators of the current game ) --> */}
       <article className="create-comment">
         <label>Add new comment:</label>
         <form className="form" onSubmit={onCommentSubmit}>
