@@ -10,8 +10,8 @@ export const GameDetails = () => {
   const { gameId } = useParams();
   const { userId } = useAuthContext();
   const [game, setGame] = useState({});
-  const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
+  const [username, setUsername] = useState("");
   const gameService = useService(gameServiceFactory);
 
   useEffect(() => {
