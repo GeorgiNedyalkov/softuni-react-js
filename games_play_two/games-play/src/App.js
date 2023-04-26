@@ -14,7 +14,7 @@ import { GameDetails } from "./components/GameDetails/GameDetails";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { gameServiceFactory } from "./services/gameService";
-import { withAuth } from "./hoc/withAuth";
+// import { withAuth } from "./hoc/withAuth";
 
 const App = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const App = () => {
     navigate(`/catalogue/${values._id}`);
   };
 
-  const EnchancedLogin = withAuth(Login);
+  // const EnchancedLogin = withAuth(Login);
 
   return (
     <AuthProvider>
@@ -56,7 +56,7 @@ const App = () => {
           <main id="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<EnchancedLogin />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/register" element={<Register />} />
               <Route
