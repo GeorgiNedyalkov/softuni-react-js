@@ -1,42 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { gameServiceFactory } from "../../services/gameService";
 import { useService } from "../../hooks/useService";
 import * as commentService from "../../services/commentService";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { gameReducer } from "../../reducers/gameReducer";
 
 import { AddComment } from "./AddComment/AddComment";
 
 export const GameDetails = () => {
-  const navigate = useNavigate();
   const { gameId } = useParams();
-  const [game, setGame] = useState({});
+  const [game, dispatch] = useReducer(gameReducer, {});
   const { userId, isAuthenticated, userEmail } = useAuthContext();
   const gameService = useService(gameServiceFactory);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([
       gameService.getOne(gameId),
       commentService.getAll(gameId),
     ]).then(([gameData, comments]) => {
-      setGame({
+      const gameState = {
         ...gameData,
         comments,
-      });
+      };
+      dispatch({ type: "GAME_FETCH", payload: gameState });
     });
   }, [gameId]);
 
   const onCommentSubmit = async (values) => {
     const response = await commentService.create(gameId, values.comment);
 
-    setGame((state) => ({
-      ...state,
-      comments: [
-        ...state.comments,
-        { ...response, author: { email: userEmail } },
-      ],
-    }));
+    dispatch({
+      type: "COMMENT_ADD",
+      payload: response,
+      userEmail,
+    });
   };
 
   const isOwner = game._ownerId === userId;
