@@ -6,7 +6,7 @@ const request = requestFactory();
 export const getAll = async (gameId) => {
   const query = encodeURIComponent(`gameId="${gameId}"`);
 
-  const result = await request.get(`${baseUrl}?where="${query}`);
+  const result = await request.get(`${baseUrl}?where=${query}`);
   const comments = Object.values(result);
 
   return comments;

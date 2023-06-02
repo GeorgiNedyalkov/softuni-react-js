@@ -11,16 +11,19 @@ import { AddComment } from "./AddComment/AddComment";
 export const GameDetails = () => {
   const navigate = useNavigate();
   const { gameId } = useParams();
-  const { userId, isAuthenticated } = useAuthContext();
   const [game, setGame] = useState({});
+  const { userId, isAuthenticated } = useAuthContext();
   const gameService = useService(gameServiceFactory);
 
   useEffect(() => {
     Promise.all([
       gameService.getOne(gameId),
       commentService.getAll(gameId),
-    ]).then((values) => {
-      console.log(values);
+    ]).then(([gameData, comments]) => {
+      setGame({
+        ...gameData,
+        comments,
+      });
     });
 
     // gameService.getOne(gameId).then((result) => {
@@ -68,11 +71,9 @@ export const GameDetails = () => {
           <h2>Comments:</h2>
           <ul>
             {game.comments &&
-              Object.values(game.comments).map((comment) => (
+              game.comments.map((comment) => (
                 <li key={comment._id} className="comment">
-                  <p>
-                    {comment.username}: {comment.comment}
-                  </p>
+                  <p>{comment.comment}</p>
                 </li>
               ))}
           </ul>
