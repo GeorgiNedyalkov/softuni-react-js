@@ -12,7 +12,7 @@ export const GameDetails = () => {
   const navigate = useNavigate();
   const { gameId } = useParams();
   const [game, setGame] = useState({});
-  const { userId, isAuthenticated } = useAuthContext();
+  const { userId, isAuthenticated, userEmail } = useAuthContext();
   const gameService = useService(gameServiceFactory);
 
   useEffect(() => {
@@ -25,23 +25,18 @@ export const GameDetails = () => {
         comments,
       });
     });
-
-    // gameService.getOne(gameId).then((result) => {
-    //   setGame(result);
-    // });
   }, [gameId]);
 
   const onCommentSubmit = async (values) => {
     const response = await commentService.create(gameId, values.comment);
 
-    console.log(response);
-
-    // setGame((state) => ({
-    //   ...state,
-    //   comments: { ...state.comments, [result._id]: result },
-    // }));
-    // setUsername("");
-    // setComment("");
+    setGame((state) => ({
+      ...state,
+      comments: [
+        ...state.comments,
+        { ...response, author: { email: userEmail } },
+      ],
+    }));
   };
 
   const isOwner = game._ownerId === userId;
@@ -73,14 +68,14 @@ export const GameDetails = () => {
             {game.comments &&
               game.comments.map((comment) => (
                 <li key={comment._id} className="comment">
-                  <p>{comment.comment}</p>
+                  <p>
+                    {comment.author.email}: {comment.comment}
+                  </p>
                 </li>
               ))}
           </ul>
 
-          {/* {!Object.values(game.comments).length && (
-            <p className="no-comment">No comments.</p>
-          )} */}
+          {!game.comments?.length && <p className="no-comment">No comments.</p>}
         </div>
 
         {isOwner && (
